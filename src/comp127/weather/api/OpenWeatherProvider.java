@@ -4,6 +4,7 @@ import net.aksingh.owmjapis.OpenWeatherMap;
 
 import javax.swing.SwingUtilities;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -21,7 +22,26 @@ import java.util.function.Consumer;
  */
 public class OpenWeatherProvider {
 
-    private static final String API_KEY = "c23965d88bbed6970a52d3c6ba456405\n";
+    private static final String PROPERTIES_FILE = "/weather-display.properties";
+
+    private static String getApiKey() {
+        Properties props = new Properties();
+        try {
+            props.load(OpenWeatherProvider.class.getResourceAsStream(PROPERTIES_FILE));
+        } catch (Exception e) {
+            System.err.print("Unable to load " + PROPERTIES_FILE + ": ");
+            e.printStackTrace();
+        }
+        String result = props.getProperty("api.key");
+        if (result == null || result.isBlank()) {
+            System.err.println();
+            System.err.println("ERROR: No api.key in res" + PROPERTIES_FILE);
+            System.err.println("       Please see README to configure the API key");
+            System.err.println();
+            System.exit(1);
+        }
+        return result;
+    }
 
     // There are two (well 4, but I'm not implementing all that) ways to specify where where you want
     // weather for. if cityName & stateName are non-null we will use those for every api call, otherwise we
@@ -40,7 +60,7 @@ public class OpenWeatherProvider {
      * @param countryCode The two-letter country code for the country you want to get weather from
      */
     public OpenWeatherProvider(String cityName, String countryCode) {
-        openWeather = new OpenWeatherMap(API_KEY);
+        openWeather = new OpenWeatherMap(getApiKey());
         this.cityName = cityName;
         this.countryCode = countryCode;
         this.lat = this.lng = null;
@@ -51,7 +71,7 @@ public class OpenWeatherProvider {
      * Creates a provider that will return weather for an arbitrary location.
      */
     public OpenWeatherProvider(double latitude, double longitude) {
-        openWeather = new OpenWeatherMap(API_KEY);
+        openWeather = new OpenWeatherMap(getApiKey());
         this.lat = latitude;
         this.lng = longitude;
         this.cityName = this.countryCode = null;

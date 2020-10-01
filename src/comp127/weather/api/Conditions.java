@@ -1,6 +1,5 @@
 package comp127.weather.api;
 
-import comp127.weather.widgets.FormattingHelpers;
 import net.aksingh.owmjapis.Tools;
 
 /**
