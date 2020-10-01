@@ -37,7 +37,7 @@ public class WindWidget implements WeatherWidget {
         group = new GraphicsGroup();
 
         compass = new Image(0, 0);
-        compass.setImagePath("condition-icons/compass.png");
+        compass.setImagePath("condition-icons/compasscolor.png");
         compass.setMaxWidth(size);
         compass.setMaxHeight(size * 0.5);
         group.add(compass);
