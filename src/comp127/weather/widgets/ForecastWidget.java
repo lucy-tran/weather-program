@@ -27,6 +27,7 @@ public class ForecastWidget implements WeatherWidget {
     private GraphicsText predictionDate;
     private GraphicsText predictionTime;
     private Image icon;
+    private static String DEGREE = "\u2109";
 
     private GraphicsGroup boxGroup;  // Holds all the ForecastBox objects
 
@@ -127,11 +128,11 @@ public class ForecastWidget implements WeatherWidget {
 
         icon.setImagePath(forecast.getWeatherIcon());
 
-        forecastTemperature.setText(FormattingHelpers.nullSafeHelper(forecast.getTemperature()) + "\u2109");
+        forecastTemperature.setText(FormattingHelpers.nullSafeHelper(forecast.getTemperature()) + DEGREE);
 
         String minTemperature = FormattingHelpers.nullSafeHelper(forecast.getMinTemperature());
         String maxTemperature = FormattingHelpers.nullSafeHelper(forecast.getMaxTemperature());
-        minMaxTemperature.setText(minTemperature + "\u2109" + " | " + maxTemperature + "\u2109");
+        minMaxTemperature.setText(minTemperature + DEGREE + " | " + maxTemperature + DEGREE);
 
         description.setText(forecast.getWeatherDescription());
     }
